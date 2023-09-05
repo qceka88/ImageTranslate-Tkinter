@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, ttk
 from tkinter import scrolledtext as sk
-
 from text_extraction import TextExtractor
 from text_translation import Translate
 
@@ -9,7 +8,7 @@ from text_translation import Translate
 # TODO: Implement spaghetti code logic in nice UI/UX
 
 # TODO: Add boxes for source language and target language
-# TODO: fix file save function, to save extracted text
+
 # TODO: add option for user to "Straigth" tilt images
 # TODO: if user not select "Straight" option, program should directly start extracting of text
 
@@ -26,8 +25,9 @@ class ImageTextTranslator:
         self.interface.maxsize(1920, 1080)
         self.interface.minsize(700, 400)
         self.interface['bg'] = 'white'
-        self.original_image = None
+        self.original_image = 'imgs/test_img.png'
         self.text_translated = ''
+
         self.button = ttk.Button(self.interface, text="Upload Image", command=self.Upload_image)
         self.button.grid(column=1, row=1)
 
@@ -37,19 +37,37 @@ class ImageTextTranslator:
     def Upload_image(self):
         self.original_image = filedialog.askopenfilename()
 
-    def file_save(self):
-        self.file = filedialog.asksaveasfile()
+    def File_save(self):
+        file_types = (
+            ('TextFile', '*.txt'),
+            ('Word2003', '*.doc'),
+            ('Word2007', '*.docx'),
+        )
+        self.output_file = filedialog.asksaveasfile(filetypes=file_types,
+                                                    defaultextension='*.txt',
+                                                    confirmoverwrite=True)
+
+        if self.output_file:
+            with open(self.output_file.name, 'w') as file:
+                file.write(self.text_translated)
 
     def Extract_text(self):
-        self.extracted_text = TextExtractor(self.original_image)
+        self.extracted_text = TextExtractor(self.original_image).__str__()
 
         def Result_window():
             def TranslationActivate():
                 self.extracted_text = self.text.get('0.1', tk.END)
-                self.text_translated = Translate(self.extracted_text, target='bg')
+                self.text_translated = Translate(self.extracted_text, target='bg').__str__()
 
-                self.translated_text = sk.ScrolledText(self.result_windows, height=25, width=50, borderwidth=4, relief=tk.SUNKEN,)
-                self.translated_text.insert(tk.END, str(self.text_translated))
+
+                self.translated_text = sk.ScrolledText(
+                    self.result_windows,
+                    height=25,
+                    width=50,
+                    borderwidth=4,
+                    relief=tk.SUNKEN,
+                )
+                self.translated_text.insert(tk.END, self.text_translated)
                 self.translated_text.grid(column=4, row=2)
 
                 self.result_windows.mainloop()
@@ -61,7 +79,7 @@ class ImageTextTranslator:
             self.style_strap1 = tk.Label(self.result_windows, bg='#FCFCFC', height=5, width=10)
             self.style_strap1.grid(column=1, row=1)
 
-            self.button = ttk.Button(self.result_windows, text="SAVE TEXT", command=self.file_save)
+            self.button = ttk.Button(self.result_windows, text="SAVE TEXT", command=self.File_save)
             self.button.grid(column=4, row=3)
 
             self.label_original_text = tk.Label(self.result_windows,
@@ -71,8 +89,14 @@ class ImageTextTranslator:
                                                 )
             self.label_original_text.grid(column=2, row=1)
 
-            self.text = sk.ScrolledText(self.result_windows, height=25, width=50, borderwidth=4, relief=tk.SUNKEN,)
-            self.text.insert(tk.END, str(self.extracted_text))
+            self.text = sk.ScrolledText(
+                self.result_windows,
+                height=25,
+                width=50,
+                borderwidth=4,
+                relief=tk.SUNKEN,
+            )
+            self.text.insert(tk.END, self.extracted_text)
             self.text.grid(column=2, row=2)
 
             self.style_strap2 = tk.Label(self.result_windows, bg='#FCFCFC', height=5, width=5)
@@ -85,8 +109,14 @@ class ImageTextTranslator:
                                                   )
             self.label_translated_text.grid(column=4, row=1)
 
-            self.translated_text = sk.ScrolledText(self.result_windows, height=25, width=50)
-            self.translated_text.insert(tk.END, str(self.text_translated))
+            self.translated_text = sk.ScrolledText(
+                self.result_windows,
+                height=25,
+                width=50,
+                borderwidth=4,
+                relief=tk.SUNKEN,
+            )
+            self.translated_text.insert(tk.END, self.text_translated)
             self.translated_text.grid(column=4, row=2)
 
             self.button = ttk.Button(self.result_windows, text="Translate", command=TranslationActivate)
