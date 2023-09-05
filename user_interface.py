@@ -42,7 +42,6 @@ class ImageTextTranslator:
 
     def Extract_text(self):
         self.extracted_text = TextExtractor(self.original_image)
-        self.text_translated = ''
 
         def Result_window():
             def TranslationActivate():
