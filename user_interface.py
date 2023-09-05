@@ -26,8 +26,8 @@ class ImageTextTranslator:
         self.interface.maxsize(1920, 1080)
         self.interface.minsize(700, 400)
         self.interface['bg'] = 'white'
-        self.original_image = 'imgs/test_img.png'
-
+        self.original_image = None
+        self.text_translated = ''
         self.button = ttk.Button(self.interface, text="Upload Image", command=self.Upload_image)
         self.button.grid(column=1, row=1)
 
