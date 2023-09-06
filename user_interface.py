@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog, ttk
 from tkinter import scrolledtext as sk
+
+from docx import Document
+
 from text_extraction import TextExtractor
 from text_translation import Translate
 
@@ -45,11 +48,23 @@ class ImageTextTranslator:
         )
         self.output_file = filedialog.asksaveasfile(filetypes=file_types,
                                                     defaultextension='*.txt',
-                                                    confirmoverwrite=True)
+                                                    confirmoverwrite=True,
+                                                    )
 
         if self.output_file:
-            with open(self.output_file.name, 'w') as file:
-                file.write(self.text_translated)
+            file_data = self.output_file.name.split('/')
+            path = '\\'.join(file_data[0:len(file_data) - 1]) + '\\'
+            file_name = file_data[-1]
+            file_extension = file_name.split('.')[-1]
+            if file_extension in ['doc', 'docx']:
+                doc_object = Document()
+                doc_object.add_paragraph(self.text_translated)
+                doc_object.save(path + file_name)
+
+            else:
+                with open(path + file_name, 'w') as file:
+                    file.write(self.text_translated)
+        self.interface.mainloop()
 
     def Extract_text(self):
         self.extracted_text = TextExtractor(self.original_image).__str__()
@@ -58,7 +73,6 @@ class ImageTextTranslator:
             def TranslationActivate():
                 self.extracted_text = self.text.get('0.1', tk.END)
                 self.text_translated = Translate(self.extracted_text, target='bg').__str__()
-
 
                 self.translated_text = sk.ScrolledText(
                     self.result_windows,
