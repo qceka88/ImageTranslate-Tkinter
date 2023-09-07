@@ -8,6 +8,7 @@ from docx import Document
 
 from error_messages import error_for_missing_image, error_for_wrong_iso_language_code
 from image_transform import ImageTransform
+from placeholders import focus_in_input_box, focus_out_input_box
 from regex_validation import input_data_regex_validation
 from text_extraction import TextExtractor
 from text_translation import TranslateText
@@ -105,14 +106,29 @@ class ImageTextTranslator:
                                             borderwidth=3, relief=tk.SUNKEN, highlightthickness=4, bg="#F5F5F5",
                                             highlightcolor="white", highlightbackground="white", fg="#191970")
             self.frame_text.grid(column=2, row=3)
-            # TODO: check for can place a gray text in placeholder
-            self.source_language = tk.Entry(self.frame_text, width=25, borderwidth=1, relief=tk.SUNKEN, bg="white")
-            self.source_language.insert(0, 'Enter Source Language'.upper())
-            self.source_language.place(x=50, y=15)
+            self.placeholder_source_language = 'ENTER SOURCE LANGUAGE'
+            self.source_language_input = tk.Entry(self.frame_text, width=25, borderwidth=1,
+                                                  relief=tk.SUNKEN, bg="white", fg='gray')
+            self.source_language_input.insert(0, self.placeholder_source_language)
+            self.source_language_input.bind("<FocusIn>",
+                                            lambda args: focus_in_input_box(self.source_language_input))
+            self.source_language_input.bind("<FocusOut>",
+                                            lambda args: focus_out_input_box(self.source_language_input,
+                                                                             self.placeholder_source_language))
+            self.source_language_input.pack()
+            self.source_language_input.place(x=50, y=15)
 
-            self.target_language = tk.Entry(self.frame_text, width=25, borderwidth=1, relief=tk.SUNKEN, bg="white")
-            self.target_language.insert(0, 'Enter Target Language'.upper())
-            self.target_language.place(x=250, y=15)
+            self.placeholder_target_language = 'ENTER TARGET LANGUAGE'
+            self.target_language_input = tk.Entry(self.frame_text, width=25, borderwidth=1,
+                                                  relief=tk.SUNKEN, bg="white", fg='gray')
+            self.target_language_input.insert(0, self.placeholder_target_language)
+            self.target_language_input.bind("<FocusIn>",
+                                            lambda args: focus_in_input_box(self.target_language_input))
+            self.target_language_input.bind("<FocusOut>",
+                                            lambda args: focus_out_input_box(self.target_language_input,
+                                                                             self.placeholder_target_language))
+            self.target_language_input.pack()
+            self.target_language_input.place(x=250, y=15)
 
             self.languages_frame_description = tk.LabelFrame(self.frame_text, width=180, height=40)
             self.languages_frame_description.place(x=30, y=55)
@@ -129,7 +145,6 @@ class ImageTextTranslator:
                                                        '\nBUT IT NOT SUPPORTED IN OCR AND TRANSLATION MODULE\n',
                                                   highlightcolor='white', bg='#fff3f3')
             self.description_languages.grid(column=1, row=1)
-            # TODO: check for can place a gray text in placeholder
 
             self.extract_button = tk.Button(self.frame_text, width=20, fg='red', bg='#CDC9C9',
                                             text="EXTRACT TEXT", command=self.Extract_text)
@@ -150,6 +165,7 @@ class ImageTextTranslator:
 
         ImageProcessingMenu()
         TextProcessingMenu()
+        self.interface.mainloop()
 
     def UploadImage(self):
         """
@@ -229,8 +245,8 @@ class ImageTextTranslator:
                     :return: If input data is OK and image is OK, program start
                     extracting text procedure
         """
-        source_language = input_data_regex_validation(self.source_language.get())
-        target_language = input_data_regex_validation(self.target_language.get())
+        source_language = input_data_regex_validation(self.source_language_input.get())
+        target_language = input_data_regex_validation(self.target_language_input.get())
 
         if not source_language:
             error_for_wrong_iso_language_code('Language Source')
