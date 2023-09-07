@@ -1,12 +1,13 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 from tkinter import scrolledtext as sk
 
 import cv2
 import imutils
 from docx import Document
 
-from error_messages import error_for_missing_image, error_for_wrong_iso_language_code
+from error_messages import error_for_missing_image, error_for_wrong_iso_language_code, \
+    opencv_cant_find_corners_of_paper_sheet
 from image_transform import ImageTransform
 from placeholders import focus_in_input_box, focus_out_input_box
 from regex_validation import input_data_regex_validation
@@ -18,9 +19,9 @@ class ImageTextTranslator:
 
     def __init__(self):
         self.interface = tk.Tk()
-        self.interface_main_window()
         self.original_image = None
         self.text_translated = ''
+        self.interface_main_window()
         self.interface.mainloop()
 
     def interface_main_window(self):
@@ -147,7 +148,7 @@ class ImageTextTranslator:
             self.description_languages.grid(column=1, row=1)
 
             self.extract_button = tk.Button(self.frame_text, width=20, fg='red', bg='#CDC9C9',
-                                            text="EXTRACT TEXT", command=self.Extract_text)
+                                            text="EXTRACT TEXT", command=self.ExtractText)
             self.extract_button.place(x=450, y=15)
 
             self.extract_text_frame_description = tk.LabelFrame(self.frame_text, width=180, height=40)
@@ -184,10 +185,7 @@ class ImageTextTranslator:
                 new_image = ImageTransform(self.original_image).return_result()
                 self.original_image = new_image
             except TypeError:
-                messagebox.showerror('Problem with corners',
-                                     'Program cannot detect corners!\n'
-                                     'Please upload new image!\n'
-                                     'Ensure that the corners are clearly visible!')
+                opencv_cant_find_corners_of_paper_sheet()
 
         else:
             error_for_missing_image()
@@ -240,7 +238,7 @@ class ImageTextTranslator:
 
         self.interface.mainloop()
 
-    def Extract_text(self):
+    def ExtractText(self):
         """
                     :return: If input data is OK and image is OK, program start
                     extracting text procedure
@@ -259,7 +257,7 @@ class ImageTextTranslator:
                                                 source_language=source_language,
                                                 ).__str__()
 
-            def Result_window():
+            def ResultWindow():
 
                 """
                   :return: CREATE SECOND WINDOWS SECTION WITH RESULT
@@ -289,7 +287,7 @@ class ImageTextTranslator:
                     self.translated_text_box.grid(column=4, row=2)
 
                     self.text_translated = self.translated_text_box.get('0.1', tk.END)
-                    self.result_windows.mainloop()
+
 
                 self.result_windows = tk.Toplevel()
                 self.result_windows.geometry("1000x600")
@@ -352,9 +350,9 @@ class ImageTextTranslator:
                                              text="SAVE TEXT", command=self.FileSave)
                 self.save_button.grid(column=4, row=3)
 
-                self.interface.mainloop()
+                self.result_windows.mainloop()
 
-            Result_window()
+            ResultWindow()
 
 
 if __name__ == '__main__':

@@ -1,8 +1,7 @@
 
 ../main.py
 
-bulgarian_text.PNG
-test_img.png
+
 output.txt
 __pycache__/text_extraction.cpython-37.pyc
 __pycache__/regex_validation.cpython-37.pyc
