@@ -49,7 +49,7 @@ When user click on extract button. After few seconds a second windows will appea
 Initially translated text is not shown. User can make corrections on extracted text and
 after this to proceed with translation of text.
 
-![original text.PNG](readme_images%2Foriginal%20text.PNG)
+![original_text.PNG](readme_images%2Foriginal_text.PNG)
 
 With translate function in the empty field will appear the translated text.
 User can make corrections on translated text and after this can proceed with saving file.
