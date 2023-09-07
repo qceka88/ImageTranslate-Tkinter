@@ -93,7 +93,7 @@ class ImageTextTranslator:
                                                          '\nAND AFTER TRANSFORMATION.'
                                                          '\nIF IMAGE NOT LOOK GOOD'
                                                          '\nAFTER TRANSFORMATION.'
-                                                         '\nUPLOAD NEW IMAGE',
+                                                         '\nUPLOAD NEW IMAGE\n',
                                                     highlightcolor='white', bg='#fff3f3')
             self.description_check_image.grid(column=1, row=1)
 
@@ -139,7 +139,7 @@ class ImageTextTranslator:
                                                        '\nISO-STANDARD FOR ABBREVIATION FORM:'
                                                        '\nISO 639-1 STANDARD LANGUAGE CODES'
                                                        '\nE.G.'
-                                                       '\nFOR BULGARIAN: BG -- FOR ENGLISH: EN, FOR FRANCE: FR'
+                                                       '\nFOR BULGARIAN: BG -- FOR ENGLISH: EN -- FOR FRANCE: FR'
                                                        '\n      -----   WARNING    ----'
                                                        '\nIT IS POSSIBLE TO ENTER AN VALID INPUT LANGUAGE FORMAT'
                                                        '\nBUT IT NOT SUPPORTED IN OCR AND TRANSLATION MODULE\n',
@@ -159,7 +159,7 @@ class ImageTextTranslator:
                                                           '\nSECOND SCREEN WILL APPEAR'
                                                           '\nWITH ORIGINAL AND'
                                                           '\nEXTRACTED TEXT'
-                                                          '\nENJOY',
+                                                          '\nENJOY\n',
                                                      highlightcolor='white', bg='#fff3f3')
             self.description_extract_text.grid(column=1, row=1)
 
