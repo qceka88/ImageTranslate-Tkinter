@@ -6,6 +6,10 @@ This program is using ot translate text from images.
 User can use directly picture of text or picture of whole paper sheet.
 If photo is taken from some angle, user can use TRANSFORM function to "straight" the image.
 
+Demo on YouTube
+
+[![youtube.PNG](readme_images%2Fyoutube.PNG)](https://www.youtube.com/watch?v=5mmO8RUHiuc)
+
 
 EXAMPLES:
 
