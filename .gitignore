@@ -4,3 +4,9 @@
 bulgarian_text.PNG
 test_img.png
 output.txt
+__pycache__/text_extraction.cpython-37.pyc
+__pycache__/regex_validation.cpython-37.pyc
+__pycache__/placeholders.cpython-37.pyc
+__pycache__/image_transform.cpython-37.pyc
+__pycache__/error_messages.cpython-37.pyc
+__pycache__/text_translation.cpython-37.pyc
